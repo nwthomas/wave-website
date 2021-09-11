@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "compile": "npx hardhat compile",
+    "deploy": "npx hardhat run scripts/deploy.js --network localhost",
+    "server": "npx hardhat node",
     "start": "npx hardhat run scripts/run.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
