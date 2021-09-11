@@ -8,13 +8,24 @@ async function main() {
 
   let waveCount = await waveContract.getTotalWaves();
 
-  const waveTxn = await waveContract.wave();
+  let waveTxn = await waveContract.wave();
   await waveTxn.wait();
 
   waveCount = await waveContract.getTotalWaves();
 
   waveTxn = await waveContract.connect(randoPerson).wave();
   await waveTxn.wait();
+
+  waveCount = await waveContract.getTotalWaves();
+
+  waveTxn = await waveContract.connect(randoPerson).wave();
+  await waveTxn.wait();
+  waveTxn = await waveContract.connect(randoPerson).wave();
+  await waveTxn.wait();
+
+  const randoWaveCount = await waveContract.getAddressWaves(
+    randoPerson.address
+  );
 
   waveCount = await waveContract.getTotalWaves();
 }

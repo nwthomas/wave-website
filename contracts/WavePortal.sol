@@ -16,7 +16,7 @@ contract WavePortal {
         totalWaves += 1;
 
         if (addressToWaveCount[msg.sender] >= 1) {
-            addressToWaveCount[msg.sender] += 1;
+            addressToWaveCount[msg.sender]++;
         } else {
             addressToWaveCount[msg.sender] = 1;
         }
@@ -30,6 +30,8 @@ contract WavePortal {
     }
 
     function getAddressWaves(address _address) view public returns (uint) {
+        console.log("This address has %d total waves", addressToWaveCount[_address]);
+
         if (addressToWaveCount[_address] >= 1) {
             return addressToWaveCount[_address];
         }
