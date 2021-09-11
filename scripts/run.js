@@ -12,6 +12,11 @@ async function main() {
   await waveTxn.wait();
 
   waveCount = await waveContract.getTotalWaves();
+
+  waveTxn = await waveContract.connect(randoPerson).wave();
+  await waveTxn.wait();
+
+  waveCount = await waveContract.getTotalWaves();
 }
 
 main()
