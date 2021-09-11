@@ -1,5 +1,7 @@
 import * as React from "react";
 import { ethers } from "ethers";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import styled from "styled-components";
 import GlobalStyles from "./styles";
 import abi from "./utils/wave";
@@ -23,7 +25,6 @@ const checkIfWalletIsConnected = () => {
     return;
   });
 
-  console.log("We have the ethereum object", ethereum);
   return true;
 };
 
@@ -31,7 +32,6 @@ function App() {
   const [account, setAccount] = React.useState("");
   const [totalWaves, setTotalWaves] = React.useState(null);
   const [isMining, setIsMining] = React.useState(false);
-  const [inputValue, setInputValue] = React.useState("");
   const contractAbi = abi.abi;
 
   const handleGetAllWaves = React.useCallback(async () => {
@@ -85,7 +85,6 @@ function App() {
 
     ethereum.request({ method: "eth_requestAccounts" }).then((accounts) => {
       if (accounts.length >= 0) {
-        console.log("Connected", accounts[0]);
         setAccount(account);
       } else {
         console.log("No authorized account found");
@@ -93,7 +92,7 @@ function App() {
     });
   };
 
-  const handleWave = async () => {
+  const handleWave = async (message) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const waveContract = new ethers.Contract(
@@ -102,7 +101,7 @@ function App() {
       signer
     );
 
-    const waveTxn = await waveContract.wave("DUDE");
+    const waveTxn = await waveContract.wave(message);
     setIsMining(true);
 
     await waveTxn.wait();
@@ -114,7 +113,18 @@ function App() {
     handleGetAllWaves();
   };
 
-  console.log({ waves });
+  const formik = useFormik({
+    initialValues: {
+      message: "",
+    },
+    onSubmit: (values) => {
+      console.log(values);
+      handleWave(values.message);
+    },
+    validationSchema: Yup.object({
+      message: Yup.string().required("Required"),
+    }),
+  });
 
   return (
     <>
@@ -122,17 +132,28 @@ function App() {
       <RootStyles>
         <h1>Hey, I'm Nathan 👋🏻</h1>
         {totalWaves ? <h3>{`Total waves sent: ${totalWaves} 👋🏻`}</h3> : null}
-        <button onClick={handleWave}>Wave at me</button>
-        <div>
-          <ConnectWalletButton onClick={handleConnectWalletClick}>
-            {account.length ? "Connect Wallet" : "Connected"}
-          </ConnectWalletButton>
-        </div>
+        <form onSubmit={formik.handleSubmit}>
+          {formik.touched.message && formik.errors.message ? (
+            <p>{formik.errors.message}</p>
+          ) : null}
+          <input
+            name="message"
+            type="text"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            placeholder="Write a message"
+            value={formik.values.message}
+          />
+          <button type="submit">Wave at me</button>
+        </form>
+        <ConnectWalletButton onClick={handleConnectWalletClick}>
+          {account.length ? "Connect Wallet" : "Connected"}
+        </ConnectWalletButton>
         {isMining ? <p>Mining</p> : null}
-        {waves.map((wave) => {
+        {waves.map((wave, i) => {
           const { address, timestamp, message } = wave;
           return (
-            <WavesWrapper>
+            <WavesWrapper key={i}>
               <p>{`Wallet: ${address}`}</p>
               <p>{`Time: ${timestamp.toString()}`}</p>
               <p>{`Message: ${message}`}</p>
@@ -159,6 +180,24 @@ const RootStyles = styled.div`
 
   > p {
     margin-top: 30px;
+  }
+
+  > form {
+    display: flex;
+    flex-direction: column;
+
+    > p {
+      color: red;
+      margin-bottom: 5px;
+    }
+
+    > input {
+      border: 1px solid black;
+      border-radius: 8px;
+      height: 40px;
+      margin-bottom: 10px;
+      padding: 0 5px;
+    }
   }
 `;
 
