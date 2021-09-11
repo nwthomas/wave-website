@@ -81,7 +81,7 @@ function App() {
         <button onClick={handleWave}>Wave at me</button>
         <div>
           <ConnectWalletButton onClick={handleConnectWalletClick}>
-            {account.length ? "Connect Wallet" : "Connected!"}
+            {account.length ? "Connect Wallet" : "Connected"}
           </ConnectWalletButton>
         </div>
         {totalWaves ? <h3>{`Total waves: ${totalWaves}`}</h3> : null}

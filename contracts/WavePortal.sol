@@ -8,11 +8,21 @@ contract WavePortal {
     mapping (address => uint) addressToWaveCount;
     uint totalWaves;
 
-    constructor() {
-        console.log("Marty, we have to go back!!!");
+    event NewWave(address indexed from, uint timestamp, string message);
+
+    struct Wave {
+        address waver;
+        string message;
+        uint timestamp;
     }
 
-    function wave() public {
+    Wave[] waves;
+
+    constructor() {
+        console.log("Contract was buils successfully");
+    }
+
+    function wave(string memory _message) public {
         totalWaves += 1;
 
         if (addressToWaveCount[msg.sender] >= 1) {
@@ -21,21 +31,24 @@ contract WavePortal {
             addressToWaveCount[msg.sender] = 1;
         }
 
-        console.log("%s is waved!", msg.sender);
+        waves.push(Wave(msg.sender, _message, block.timestamp));
+
+        emit NewWave(msg.sender, block.timestamp, _message);
     }
 
     function getTotalWaves() view public returns (uint) {
-        console.log("We have %d total waves", totalWaves);
         return totalWaves;
     }
 
     function getAddressWaves(address _address) view public returns (uint) {
-        console.log("This address has %d total waves", addressToWaveCount[_address]);
-
         if (addressToWaveCount[_address] >= 1) {
             return addressToWaveCount[_address];
         }
 
         return 0;
+    }
+
+    function getAllWaves() view public returns (Wave[] memory) {
+        return waves;
     }
 }
