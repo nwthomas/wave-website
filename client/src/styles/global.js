@@ -13,8 +13,7 @@ const GlobalStyle = css`
   }
   html,
   body {
-    font-family: "Work Sans", -apple-system, BlinkMacSystemFont, Segoe UI,
-      Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    font-family: Helvetica, Arial, sans-serif, "Apple Color Emoji",
       "Segoe UI Emoji", "Segoe UI Symbol";
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -38,17 +37,28 @@ const GlobalStyle = css`
     font-size: 1.6rem;
   }
 
+  p {
+    font-size: 1.6rem;
+  }
+
   button {
     background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
-    border-radius: 15px;
+    border-radius: 7px;
     border: none;
     font-size: 1.6rem;
     height: 40px;
     width: 200px;
+    -webkit-box-shadow: 0px 9px 16px -4px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 9px 16px -4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 9px 16px -4px rgba(0, 0, 0, 0.1);
+    transition: 0.3s transform, 0.3s box-shadow;
 
     &:hover {
       cursor: pointer;
-      border: 1px solid lightgray;
+      transform: translateY(-1px);
+      -webkit-box-shadow: 0px 9px 16px -4px rgba(0, 0, 0, 0.17);
+      -moz-box-shadow: 0px 9px 16px -4px rgba(0, 0, 0, 0.17);
+      box-shadow: 0px 9px 16px -4px rgba(0, 0, 0, 0.17);
     }
   }
 `;
