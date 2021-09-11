@@ -56,7 +56,7 @@ function App() {
         <button>Wave at me</button>
         <div>
           <ConnectWalletButton onClick={handleConnectWalletClick}>
-            Connect Wallet
+            {account.length ? "Connect Wallet" : "Connected!"}
           </ConnectWalletButton>
         </div>
       </RootStyles>
