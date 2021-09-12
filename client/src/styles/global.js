@@ -42,8 +42,8 @@ const GlobalStyle = css`
   }
 
   button {
-    background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
-    border-radius: 7px;
+    background-image: linear-gradient(150deg, #d4fc79 0%, #96e6a1 100%);
+    border-radius: 8px;
     border: none;
     font-size: 1.6rem;
     height: 40px;

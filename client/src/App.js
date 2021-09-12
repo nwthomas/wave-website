@@ -53,6 +53,17 @@ function App() {
     });
 
     setWaves(normalizedWaves);
+
+    waveContract.on("NewWave", (from, timestamp, message) => {
+      setWaves((oldArray) => [
+        ...oldArray,
+        {
+          address: from,
+          timestamp: new Date(timestamp * 1000),
+          message: message,
+        },
+      ]);
+    });
   }, [contractAbi]);
 
   const handleGetTotalWaves = React.useCallback(async () => {
