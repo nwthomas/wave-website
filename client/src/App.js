@@ -101,7 +101,7 @@ function App() {
       signer
     );
 
-    const waveTxn = await waveContract.wave(message);
+    const waveTxn = await waveContract.wave(message, { gasLimit: 300000 });
     setIsMining(true);
 
     await waveTxn.wait();
