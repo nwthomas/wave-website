@@ -21,7 +21,7 @@ const checkIfWalletIsConnected = () => {
       return accountOne;
     }
 
-    console.log("no authorized account found");
+    console.log("No authorized account found");
     return;
   });
 
@@ -205,6 +205,7 @@ const RootStyles = styled.div`
     > input {
       border: 1px solid black;
       border-radius: 8px;
+      font-size: 1.6rem;
       height: 40px;
       margin-bottom: 10px;
       padding: 0 5px;
